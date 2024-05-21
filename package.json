@@ -1,0 +1,19 @@
+{
+  "name": "codacy-metrics-lizard",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codacy/codacy-metrics-lizard.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/codacy/codacy-metrics-lizard/issues"
+  },
+  "homepage": "https://github.com/codacy/codacy-metrics-lizard#readme"
+}
