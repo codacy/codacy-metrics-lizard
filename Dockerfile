@@ -2,8 +2,7 @@ FROM node:lts-alpine3.21 as builder
 
 COPY package.json package-lock.json ./
 COPY src src
-# copy to test the build with docs
-COPY docs docs
+
 COPY tsconfig.json ./
 
 RUN npm install &&\
@@ -19,7 +18,6 @@ RUN pip install lizard &&\
 
 COPY --from=builder --chown=docker:docker node_modules node_modules
 COPY --from=builder --chown=docker:docker dist dist
-COPY --from=builder --chown=docker:docker docs docs
 COPY --chmod=550 --chown=docker:docker entrypoint.sh entrypoint.sh
 
 WORKDIR /src
