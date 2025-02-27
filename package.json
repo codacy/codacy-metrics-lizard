@@ -8,13 +8,13 @@
     "lizard",
     "linter"
   ],
-  "homepage": "https://github.com/codacy/codacy-lizard#readme",
+  "homepage": "https://github.com/codacy/codacy-metrics-lizard#readme",
   "bugs": {
-    "url": "https://github.com/codacy/codacy-lizard/issues"
+    "url": "https://github.com/codacy/codacy-metrics-lizard/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/codacy/codacy-lizard.git"
+    "url": "git+https://github.com/codacy/codacy-metrics-lizard.git"
   },
   "license": "Apache-2.0",
   "main": "dist/src/index.js",
