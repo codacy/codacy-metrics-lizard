@@ -1,5 +1,5 @@
 {
-  "name": "codacy-lizard",
+  "name": "codacy-metrics-lizard",
   "version": "1.0.0",
   "author": "Codacy",
   "description": "Lizard Tool for Codacy.",

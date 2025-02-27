@@ -1,7 +1,7 @@
 {
   "tools": [
     {
-      "name": "lizard",
+      "name": "metrics-lizard",
       "patterns": [
         {
           "patternId": "ccn-medium",
