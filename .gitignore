@@ -1,0 +1,10 @@
+.codarcyrc
+.DS_Store
+.eslintcache
+.idea
+.metals
+.vscode
+codacy-metrics-lizard.iml
+tsconfig.tsbuildinfo
+/node_modules
+/dist
