@@ -10,28 +10,22 @@ export interface LizardOptions {
 }
 
 export const getLizardOptions = async function (
-  codacyrc: Codacyrc
+    codacyrc: Codacyrc
 ): Promise<LizardOptions> {
-  debug("config: creating")
+  try {
+    // Get options for the tool from the codacyrc
+    const patterns = codacyrc.tools[0]?.patterns || [];
+    const thresholds = Object.fromEntries(
+        patterns.map((p) => [p.patternId, p.parameters?.[0]?.value])
+    )
 
-  if (!codacyrc || ![toolName, `metrics-${toolName}`].includes(codacyrc.tools?.[0]?.name))
-    throw new Error("Error in codacyrc file")
-
-  // get options for the tool from the codacyrc
-  const patterns = codacyrc.tools[0].patterns || []
-  const thresholds = Object.fromEntries(
-    patterns.map((p) => [p.patternId, p.parameters[0]?.value])
-  )
-
-  debug(
-    `engine: list of ${codacyrc.files.length} files (or globs) to process and options used`
-  )
-  debug(codacyrc.files)
-  debug(thresholds)
-
-  return {
-    "files": codacyrc.files,
-    thresholds,
-    "returnMetrics": !!patterns
+    return {
+      files: codacyrc.files,
+      thresholds,
+      returnMetrics: !!patterns,
+    }
+  } catch (error) {
+    console.error("Error in getLizardOptions:", error)
+    throw new Error("Failed to retrieve Lizard options")
   }
 }
