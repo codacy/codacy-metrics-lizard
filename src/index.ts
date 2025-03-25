@@ -1,5 +1,6 @@
 import { lizardMetricsEngine } from "./lizardMetricsEngine"
 import { parseTimeoutSeconds } from "./parseTimeoutSeconds"
+import { readCodacyrcFile } from "./fileUtils"
 
 const timeoutSeconds = parseTimeoutSeconds(process.env.TIMEOUT_SECONDS)
 
@@ -9,7 +10,8 @@ const timeoutHandle = setTimeout(() => {
 }, timeoutSeconds * 1000)
 
 async function run() {
-    const results = await lizardMetricsEngine()
+    const codacyrc = await readCodacyrcFile("/.codacyrc")
+    const results = await lizardMetricsEngine(codacyrc)
     console.log(results)
 }
 
@@ -19,3 +21,5 @@ run()
         process.exit(1)
     })
     .finally(() => clearTimeout(timeoutHandle))
+
+
