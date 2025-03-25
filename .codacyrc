@@ -1,0 +1,44 @@
+{
+  "tools": [
+    {
+      "name": "metrics-lizard",
+      "patterns": [
+        {
+          "patternId": "ccn-medium",
+          "parameters": [
+            {
+              "name": "threshold",
+              "value": 3
+            }
+          ]
+        },
+        {
+          "patternId": "ccn-critical",
+          "parameters": [
+            {
+              "name": "threshold",
+              "value": 8
+            }
+          ]
+        },
+        {
+          "patternId": "ccn-minor",
+          "parameters": [
+            {
+              "name": "threshold",
+              "value": 0
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "files": [
+    "/dist/src/configCreator.js",
+    "/dist/src/engineImpl.js",
+    "/dist/src/lizard.js",
+    "/dist/src/lizardIssuesEngine.js",
+    "/dist/src/lizardMetricsEngine.js",
+    "/dist/src/logging.js"
+  ]
+}
