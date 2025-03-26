@@ -1,4 +1,4 @@
-import { Codacyrc } from "codacy-seed"
+import { Codacyrc } from "./model/codacyInput"
 
 import { getLizardOptions, LizardOptions } from "./configCreator"
 import { runLizardCommand } from "./lizard"

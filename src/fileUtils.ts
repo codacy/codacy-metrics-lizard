@@ -1,6 +1,6 @@
 import { readFile } from "fs/promises"
 
-import { Codacyrc } from "codacy-seed"
+import { Codacyrc } from "./model/codacyInput"
 
 export async function readCodacyrcFile(file: string): Promise<Codacyrc | undefined> {
     try {
