@@ -9,10 +9,18 @@ export async function readCodacyrcFile(file: string): Promise<Codacyrc | undefin
         return parseCodacyrcFile(content)
     } catch (e) {
         console.error(`Error reading ${file} file`)
+        console.error(e)
         return undefined
     }
 }
 
 export function parseCodacyrcFile(content: string): Codacyrc {
-    return JSON.parse(content)
+    const parsed: Codacyrc = JSON.parse(content)
+
+    const created: Codacyrc = new Codacyrc(
+        parsed.files,
+        parsed.language
+    )
+
+    return created
 }
