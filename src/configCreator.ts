@@ -9,7 +9,6 @@ export const getLizardOptions = async function (
     codacyrc: Codacyrc
 ): Promise<LizardOptions> {
   try {
-
     return {
       files: codacyrc.files,
       returnMetrics: true,
