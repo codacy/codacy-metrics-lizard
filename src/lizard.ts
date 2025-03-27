@@ -151,7 +151,7 @@ const parseLizardResults = (output: string): LizardResults => {
       const [nloc, avgNloc, avgCcn, avgTokens, methodsCount, file] = lineSplitted
 
       results.files.push({
-        file,
+        file: `/${file}`,
         "nloc": parseInt(nloc),
         "maxCcn": results.methods
           .filter((m) => m.file === file)
