@@ -12,7 +12,9 @@ const timeoutHandle = setTimeout(() => {
 async function run() {
     const codacyrc = await readCodacyrcFile("/.codacyrc")
     const results = await lizardMetricsEngine(codacyrc)
-    console.log(results)
+    results.forEach((result) => {
+        console.log(JSON.stringify(result)) // print each result as a JSON string
+    })
 }
 
 run()

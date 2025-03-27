@@ -37,7 +37,7 @@ export const runLizardCommand = (
 
     // run lizard command
     return new Promise((resolve, reject) => {
-      exec(`lizard -V src`, (error, stdout, stderr) => {
+      exec(`lizard -V`, (error, stdout, stderr) => {
 
         if (stdout.trim()) {
           // If stdout has content, resolve with the parsed results
@@ -135,7 +135,7 @@ const parseLizardResults = (output: string): LizardResults => {
         "name": name,
         "fromLine": parseInt(fromLine),
         "toLine": parseInt(toLine),
-        "file": file,
+        "file": file.replace(/^.\//, ''),
         "nloc": parseInt(nloc),
         "ccn": parseInt(ccn),
         "params": parseInt(params),
@@ -151,7 +151,7 @@ const parseLizardResults = (output: string): LizardResults => {
       const [nloc, avgNloc, avgCcn, avgTokens, methodsCount, file] = lineSplitted
 
       results.files.push({
-        file: `/${file}`,
+        file: file.replace(/^.\//, ''),
         "nloc": parseInt(nloc),
         "maxCcn": results.methods
           .filter((m) => m.file === file)
