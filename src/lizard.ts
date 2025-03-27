@@ -37,7 +37,7 @@ export const runLizardCommand = (
 
     // run lizard command
     return new Promise((resolve, reject) => {
-      exec(`lizard -V .`, (error, stdout, stderr) => {
+      exec(`lizard -V src`, (error, stdout, stderr) => {
 
         if (stdout.trim()) {
           // If stdout has content, resolve with the parsed results
