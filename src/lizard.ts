@@ -33,32 +33,59 @@ export interface LizardResults {
 export const runLizardCommand = (
   options: LizardOptions
 ): Promise<LizardResults> => {
-  // create a file with the list of files to analyze
-  const filesList = options.files.join("\n")
-  const filesListPath = "/codacy/filesList.txt"
-  fs.writeFileSync(filesListPath, filesList)
+  if (options.files.length === 1 && options.files[0] === ".") {
 
-  // run lizard command
-  return new Promise((resolve, reject) => {
-    exec(`lizard -V -f ${filesListPath}`, (error, stdout, stderr) => {
+    // run lizard command
+    return new Promise((resolve, reject) => {
+      exec(`lizard -V .`, (error, stdout, stderr) => {
 
-      if (stdout.trim()) {
-        // If stdout has content, resolve with the parsed results
-        return resolve(parseLizardResults(stdout))
-      }
+        if (stdout.trim()) {
+          // If stdout has content, resolve with the parsed results
+          return resolve(parseLizardResults(stdout))
+        }
 
-      // If there's no useful stdout but there's an error, reject
-      if (error) {
-        return reject(error)
-      }
-      if (stderr) {
-        return reject(stderr)
-      }
+        // If there's no useful stdout but there's an error, reject
+        if (error) {
+          return reject(error)
+        }
+        if (stderr) {
+          return reject(stderr)
+        }
 
-      // Fallback: If neither stdout nor errors are meaningful, reject
-      reject(new Error("Unknown error: No stdout and command failed"));
+        // Fallback: If neither stdout nor errors are meaningful, reject
+        reject(new Error("Unknown error: No stdout and command failed"));
+      })
     })
-  })
+
+  } else {
+
+    // create a file with the list of files to analyze
+    const filesList = options.files.join("\n")
+    const filesListPath = "/codacy/filesList.txt"
+    fs.writeFileSync(filesListPath, filesList)
+
+    // run lizard command
+    return new Promise((resolve, reject) => {
+      exec(`lizard -V -f ${filesListPath}`, (error, stdout, stderr) => {
+
+        if (stdout.trim()) {
+          // If stdout has content, resolve with the parsed results
+          return resolve(parseLizardResults(stdout))
+        }
+
+        // If there's no useful stdout but there's an error, reject
+        if (error) {
+          return reject(error)
+        }
+        if (stderr) {
+          return reject(stderr)
+        }
+
+        // Fallback: If neither stdout nor errors are meaningful, reject
+        reject(new Error("Unknown error: No stdout and command failed"));
+      })
+    })
+  }
 }
 
 const parseLizardResults = (output: string): LizardResults => {
