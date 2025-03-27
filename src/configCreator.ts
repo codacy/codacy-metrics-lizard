@@ -9,7 +9,7 @@ export const getLizardOptions = async function (
     codacyrc: Codacyrc
 ): Promise<LizardOptions> {
   try {
-    const defaultFilesToAnalyze = ["/src/**"]
+    const defaultFilesToAnalyze = ["."]
     return {
       files: codacyrc?.files?.length > 0 ? codacyrc.files : defaultFilesToAnalyze,
       returnMetrics: true,
