@@ -66,7 +66,7 @@ export const runLizardCommand = (
 
     // run lizard command
     return new Promise((resolve, reject) => {
-      exec(`lizard -V -f ${filesListPath}`, (error, stdout, stderr) => {
+      exec(`lizard -V -l cpp -l objectivec -l rust -f ${filesListPath}`, (error, stdout, stderr) => {
 
         if (stdout.trim()) {
           // If stdout has content, resolve with the parsed results
