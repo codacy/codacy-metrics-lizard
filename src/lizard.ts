@@ -37,7 +37,7 @@ export const runLizardCommand = (
 
     // run lizard command
     return new Promise((resolve, reject) => {
-      exec(`lizard -V -l cpp -l objectivec -l rust`, (error, stdout, stderr) => {
+      exec(`lizard -V -l cpp -l objectivec -l rust -l java -l csharp -l javascript -l python -l typescript -l ruby -l php -l swift -l scala -l go`, (error, stdout, stderr) => {
 
         if (stdout.trim()) {
           // If stdout has content, resolve with the parsed results
@@ -66,7 +66,7 @@ export const runLizardCommand = (
 
     // run lizard command
     return new Promise((resolve, reject) => {
-      exec(`lizard -V -l cpp -l objectivec -l rust -f ${filesListPath}`, (error, stdout, stderr) => {
+      exec(`lizard -V -l cpp -l objectivec -l rust -l java -l csharp -l javascript -l python -l typescript -l ruby -l php -l swift -l scala -l go -f ${filesListPath}`, (error, stdout, stderr) => {
 
         if (stdout.trim()) {
           // If stdout has content, resolve with the parsed results

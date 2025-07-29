@@ -8,3 +8,5 @@ codacy-metrics-lizard.iml
 tsconfig.tsbuildinfo
 /node_modules
 /dist
+.codacy
+.github
