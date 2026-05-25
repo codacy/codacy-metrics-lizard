@@ -5,7 +5,7 @@ COPY src src
 
 COPY tsconfig.json ./
 
-RUN npm install &&\
+RUN npm install --force &&\
     npm run build
 
 FROM python:3.14-alpine3.23
