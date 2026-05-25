@@ -11,7 +11,7 @@
     "sourceMap": true,
     "strict": false,
     "target": "ES6",
-    "types": ["Node"]
+    "types": ["node"]
   },
   "include": ["src/**/*.ts", "package.json"]
 }
