@@ -33,6 +33,13 @@ export interface LizardResults {
   "files": LizardFileResult[];
 }
 
+// lizard analyzes every language it knows when "-l" is omitted, so only pass it when a specific language is requested
+const buildLizardCommand = (options: LizardOptions, extraArgs = ""): string => {
+  const languageFlags = options.languages.map((language) => `-l ${language}`).join(" ")
+
+  return ["lizard -V", languageFlags, extraArgs].filter(Boolean).join(" ")
+}
+
 export const runLizardCommand = (
   options: LizardOptions
 ): Promise<LizardResults> => {
@@ -40,7 +47,7 @@ export const runLizardCommand = (
 
     // run lizard command
     return new Promise((resolve, reject) => {
-      exec(`lizard -V -l cpp -l objectivec -l rust -l java -l csharp -l javascript -l python -l typescript -l ruby -l php -l swift -l scala -l go`, { maxBuffer }, (error, stdout, stderr) => {
+      exec(buildLizardCommand(options), { maxBuffer }, (error, stdout, stderr) => {
 
         if (stdout.trim()) {
           // If stdout has content, resolve with the parsed results
@@ -69,7 +76,7 @@ export const runLizardCommand = (
 
     // run lizard command
     return new Promise((resolve, reject) => {
-      exec(`lizard -V -l cpp -l objectivec -l rust -l java -l csharp -l javascript -l python -l typescript -l ruby -l php -l swift -l scala -l go -f ${filesListPath}`, { maxBuffer }, (error, stdout, stderr) => {
+      exec(buildLizardCommand(options, `-f ${filesListPath}`), { maxBuffer }, (error, stdout, stderr) => {
 
         if (stdout.trim()) {
           // If stdout has content, resolve with the parsed results
