@@ -30,6 +30,7 @@ const getLizardMetrics = async (options: LizardOptions) => {
     results.push({
       "filename": file.file,
       "complexity": Math.round(file.averageCcn * file.methodsCount), // the sum of method complexities is the average ccn per method multiplied by the number of methods
+      "loc": file.nloc,
       "lineComplexities": data.methods
           .filter((m) => m.file === file.file)
           .map((m) => ({
