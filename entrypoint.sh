@@ -14,11 +14,13 @@ esac
 if [ -n "$max_ram_bytes" ]; then
   max_ram=$((max_ram_bytes / 1024 / 1024))
   old_space_size=$((max_ram - 356))
+  # below this, the fixed 356MB overhead eats too much of the container's
+  # memory budget, so fall back to a fraction of the actual limit instead
+  if [ "$old_space_size" -lt 256 ]; then
+    old_space_size=$((max_ram * 75 / 100))
+  fi
 else
-  old_space_size=""
-fi
-
-if [ -z "$old_space_size" ] || [ "$old_space_size" -lt 256 ]; then
+  # no limit could be detected at all, use a conservative default
   old_space_size=1024
 fi
 
