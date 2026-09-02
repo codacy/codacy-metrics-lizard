@@ -4,6 +4,9 @@ import fs from "fs"
 import { LizardOptions } from "./configCreator"
 import { debug } from "./logging"
 
+// lizard's stdout for large codebases can exceed Node's default 1MB exec buffer
+const maxBuffer = 1024 * 1024 * 50
+
 export interface LizardMethodResult {
   "name": string;
   "fromLine": number;
@@ -37,7 +40,7 @@ export const runLizardCommand = (
 
     // run lizard command
     return new Promise((resolve, reject) => {
-      exec(`lizard -V -l cpp -l objectivec -l rust -l java -l csharp -l javascript -l python -l typescript -l ruby -l php -l swift -l scala -l go`, (error, stdout, stderr) => {
+      exec(`lizard -V -l cpp -l objectivec -l rust -l java -l csharp -l javascript -l python -l typescript -l ruby -l php -l swift -l scala -l go`, { maxBuffer }, (error, stdout, stderr) => {
 
         if (stdout.trim()) {
           // If stdout has content, resolve with the parsed results
@@ -66,7 +69,7 @@ export const runLizardCommand = (
 
     // run lizard command
     return new Promise((resolve, reject) => {
-      exec(`lizard -V -l cpp -l objectivec -l rust -l java -l csharp -l javascript -l python -l typescript -l ruby -l php -l swift -l scala -l go -f ${filesListPath}`, (error, stdout, stderr) => {
+      exec(`lizard -V -l cpp -l objectivec -l rust -l java -l csharp -l javascript -l python -l typescript -l ruby -l php -l swift -l scala -l go -f ${filesListPath}`, { maxBuffer }, (error, stdout, stderr) => {
 
         if (stdout.trim()) {
           // If stdout has content, resolve with the parsed results
@@ -127,7 +130,10 @@ const parseLizardResults = (output: string): LizardResults => {
       const lineSplitted = line.replaceAll(/\s+|@/g, " ")
         .trim()
         .split(" ")
-      if (lineSplitted.length != 8) return
+      if (lineSplitted.length != 8) {
+        debug(`Skipping unparsable method line (expected 8 columns, got ${lineSplitted.length}): ${line}`)
+        return
+      }
       const [nloc, ccn, tokens, params, , name, fromToLine, file] = lineSplitted
       const [fromLine, toLine] = fromToLine.split("-")
 
@@ -142,16 +148,20 @@ const parseLizardResults = (output: string): LizardResults => {
         "tokens": parseInt(tokens)
       })
     }
-    
+
     if (isFileSection) {
       const lineSplitted = line.replaceAll(/\s+/g, " ")
         .trim()
         .split(" ")
-      if (lineSplitted.length != 6) return
-      const [nloc, avgNloc, avgCcn, avgTokens, methodsCount, file] = lineSplitted
+      if (lineSplitted.length != 6) {
+        debug(`Skipping unparsable file line (expected 6 columns, got ${lineSplitted.length}): ${line}`)
+        return
+      }
+      const [nloc, avgNloc, avgCcn, avgTokens, methodsCount, rawFile] = lineSplitted
+      const file = rawFile.replace(/^.\//, '')
 
       results.files.push({
-        file: file.replace(/^.\//, ''),
+        file,
         "nloc": parseInt(nloc),
         "maxCcn": results.methods
           .filter((m) => m.file === file)
