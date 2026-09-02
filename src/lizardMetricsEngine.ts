@@ -27,15 +27,15 @@ const getLizardMetrics = async (options: LizardOptions) => {
 
   // iterate over the files
   data.files.forEach((file) => {
+    const fileMethods = data.methods.filter((m) => m.file === file.file)
+
     results.push({
       "filename": file.file,
-      "complexity": Math.round(file.averageCcn * file.methodsCount), // the sum of method complexities is the average ccn per method multiplied by the number of methods
-      "lineComplexities": data.methods
-          .filter((m) => m.file === file.file)
-          .map((m) => ({
-            "line": m.fromLine,
-            "value": m.ccn
-          }))
+      "complexity": fileMethods.reduce((sum, m) => sum + m.ccn, 0), // sum of the actual per-method complexities
+      "lineComplexities": fileMethods.map((m) => ({
+        "line": m.fromLine,
+        "value": m.ccn
+      }))
     })
   })
 
